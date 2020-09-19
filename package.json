@@ -1,0 +1,36 @@
+{
+  "name": "instant-pack",
+  "version": "0.1.0",
+  "description": "instant service built with node.js and socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean:lib": "rm -rf node_modules",
+    "debug": "node --inspect index.js artsteps-instant",
+    "start": "node index.js artsteps-instant",
+    "stop": "pkill --signal -SIGINT artsteps-instant"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "alex@xelin.org",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "nodemon": "^2.0.4",
+    "socket.io": "^2.3.0",
+    "socketio-wildcard": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "6.2.2",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}
