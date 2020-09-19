@@ -20,26 +20,25 @@ function ensurePort(option, log) {
   return sanePort;
 }
 
-function logHandler(prefix) {
-  return {
-    set: (...rest) => {
-      const [target, prop] = rest;
+function configProxy(target, prefix) {
+  return new Proxy(target, {
+    get: (...rest) => {
+      const [prx, prop] = rest;
       if (prop === 'error') {
-        return target.error(prefix.concat(':error'), ...rest);
+        return (...toLog) => prx.warn(prefix.concat(':error'), ...toLog);
       }
       if (prop === 'log' || prop === 'info') {
-        return target.info(prefix.concat(':info'), ...rest);
+        return (...toLog) => prx.info(prefix.concat(':info'), ...toLog);
       }
       if (prop === 'warn') {
-        return target.warn(prefix.concat(':warning'), ...rest);
+        return (...toLog) => prx.warn(prefix.concat(':warning'), ...toLog);
       }
-      return Reflect.set(...rest);
+      if (prop === 'debug') {
+        return (...toLog) => prx.debug(prefix.concat(':debug'), ...toLog);
+      }
+      return Reflect.get(...rest.splice(0, 3));
     },
-  };
-}
-
-function configProxy(target, prefix) {
-  return new Proxy(target, logHandler(prefix));
+  });
 }
 
 function logWire(prefix, logger) {

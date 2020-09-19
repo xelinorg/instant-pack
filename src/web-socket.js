@@ -22,7 +22,10 @@ WebSocket.prototype.on = function webSocketOn(handler) {
 WebSocket.prototype.wireDefault = function webSocketWireDefault() {
   if (this.listening && !this.isDefaultWired) {
     this.socket.on('connection', (socketInstance) => {
-      this.logger.info('New user connected');
+      this.logger.info(
+        'New user connected with headers',
+        socketInstance.client.request.headers,
+      );
 
       socketInstance.on('error', (error) => {
         this.logger.error(error);
@@ -30,7 +33,7 @@ WebSocket.prototype.wireDefault = function webSocketWireDefault() {
       });
 
       socketInstance.on('*', (packet) => {
-        this.logger.debug(packet);
+        this.logger.debug('packet on*', packet);
         this.socket.emit(packet.data[0], packet.data[1]);
       });
 
