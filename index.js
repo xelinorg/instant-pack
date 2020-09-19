@@ -1,14 +1,21 @@
-const instant = require('./src')
+const sio = require('socket.io');
+const https = require('https');
+const http = require('http');
+const siowildcard = require('socketio-wildcard')();
+
+const instant = require('./src');
 
 if (process.argv.length > 2) {
-  const saneOption = instant.parseOption(process.argv.splice(2, process.argv.length))
+  const saneOption = instant.parseOption(
+    process.argv.splice(2, process.argv.length),
+  );
   const config = {
     ...saneOption,
-    wslib: require('socket.io'),
-    hlib: saneOption.secure ? require('https') : require('http'),
-    middleware: [require('socketio-wildcard')()]
-  }
-  instant.boot(config)
+    wslib: sio,
+    hlib: saneOption.secure ? https : http,
+    middleware: [siowildcard],
+  };
+  instant.boot(config);
 } else {
-  module.exports = instant
+  module.exports = instant;
 }

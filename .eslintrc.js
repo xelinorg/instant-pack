@@ -5,7 +5,7 @@ module.exports = {
     node: true
   },
   extends: [
-    'standard'
+    "eslint:recommended", "airbnb-base", "plugin:prettier/recommended"
   ],
   globals: {
     Atomics: 'readonly',
@@ -15,5 +15,6 @@ module.exports = {
     ecmaVersion: 2018
   },
   rules: {
+    
   }
 }
