@@ -1,3 +1,4 @@
+const defaultHttpResponse = 'instant-pack';
 function WebServer(option) {
   this.hserver = option.hlib.createServer(option.hhandler);
   this.logger = option.logger;
@@ -22,8 +23,8 @@ function webServerConfig(option) {
     ...option,
     hhandler: (req, res) => {
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      res.setHeader('Content-Length', Buffer.byteLength('artsteps-instant'));
-      res.end('artsteps-instant');
+      res.setHeader('Content-Length', Buffer.byteLength(defaultHttpResponse));
+      res.end(defaultHttpResponse);
     },
   };
 }

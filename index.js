@@ -1,4 +1,5 @@
 const sio = require('socket.io');
+const redis = require('socket.io-redis');
 const https = require('https');
 const http = require('http');
 const siowildcard = require('socketio-wildcard')();
@@ -11,7 +12,9 @@ if (process.argv.length > 2) {
   );
   const config = {
     ...saneOption,
-    wslib: sio,
+    sio,
+    redis,
+    transports: ['websocket'],
     hlib: saneOption.secure ? https : http,
     middleware: [siowildcard],
   };

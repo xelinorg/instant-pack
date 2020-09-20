@@ -1,16 +1,23 @@
 function WebSocket(option) {
-  this.wslib = option.wslib;
+  this.sio = option.sio;
+  this.sioredis = option.sioredis;
   this.middleware = option.middleware;
+  this.transports = option.transports;
   this.logger = option.logger;
   this.listening = false;
   this.isDefaultWired = false;
   this.socket = null;
-  this.logger = option.logger;
 }
 
 WebSocket.prototype.attach = function webSocketAttach(hserver) {
-  this.socket = this.wslib(hserver);
-  this.socket.use(...this.middleware);
+  this.socket = this.sio(hserver);
+  this.socket.set('transports', this.transports);
+  if (this.sioredis) {
+    this.socket.adapter(this.sioredis);
+  }
+  if (this.middleware && this.middleware.length > 0) {
+    this.socket.use(...this.middleware);
+  }
   this.listening = true;
 };
 
@@ -27,9 +34,8 @@ WebSocket.prototype.wireDefault = function webSocketWireDefault() {
         socketInstance.client.request.headers,
       );
 
-      socketInstance.on('error', (error) => {
-        this.logger.error(error);
-        setTimeout(() => socketInstance.disconnect(true), 0);
+      socketInstance.on('close', (...rest) => {
+        this.logger.info('User closed', rest);
       });
 
       socketInstance.on('*', (packet) => {

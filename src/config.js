@@ -56,8 +56,13 @@ function configFactory(option) {
     },
     webSocket: {
       logger: logWire('web-socket', option.logger),
-      wslib: option.wslib,
+      sio: option.sio,
+      sioredis: option.redis({
+        host: option.redishost,
+        port: option.redisport,
+      }),
       middleware: option.middleware,
+      transports: option.transports,
     },
     ensurePort: (portOption) => {
       return ensurePort(portOption, logWire('web-server', option.logger));
