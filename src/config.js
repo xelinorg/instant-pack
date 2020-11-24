@@ -57,10 +57,13 @@ function configFactory(option) {
     webSocket: {
       logger: logWire('web-socket', option.logger),
       sio: option.sio,
-      sioredis: option.redis({
-        host: option.redishost,
-        port: option.redisport,
-      }),
+      sioredis:
+        option.redishost && option.redisport
+          ? option.redis({
+              host: option.redishost,
+              port: option.redisport,
+            })
+          : null,
       middleware: option.middleware,
       transports: option.transports,
     },

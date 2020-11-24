@@ -7,10 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean:lib": "rm -rf node_modules",
     "debug": "node --inspect index.js port=5000 artsteps-instant",
-    "start": "node index.js artsteps-instant",
+    "start": "node index.js port=5000 artsteps-instant",
     "stop": "pkill --signal -SIGINT artsteps-instant",
     "mkdirs": "mkdir -p build/",
-    "start:bundle": "node build/index.js artsteps-instant",
+    "start:bundle": "node build/index.js port=5000 artsteps-instant",
     "build:bundle": "npm run mkdirs && npx webpack --config webpack.instant.config.js --mode production"
   },
   "repository": {
